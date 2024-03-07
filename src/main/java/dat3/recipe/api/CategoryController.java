@@ -1,9 +1,8 @@
 package dat3.recipe.api;
-
+import dat3.recipe.entity.Category;
 import dat3.recipe.service.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +20,10 @@ public class CategoryController {
   public List<String> getAllCategories() {
     return categoryService.getAllCategories();
   }
+
+  @PreAuthorize("hasAnyAuthority('ADMIN')")
+  @PostMapping
+    public String addCategory(@RequestBody Category request) {
+    return categoryService.addCategory(request);
+    }
 }

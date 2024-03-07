@@ -6,6 +6,7 @@ import dat3.recipe.entity.Recipe;
 import dat3.recipe.repository.CategoryRepository;
 import dat3.recipe.repository.RecipeRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -70,6 +71,13 @@ public class RecipeService {
     original.setSource(r.getSource());
     original.setCategory(category);
   }
+
+  public ResponseEntity deleteRecipe(int id) {
+    Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+    recipeRepository.delete(recipe);
+    return new ResponseEntity(HttpStatus.NO_CONTENT);
+  }
+
 
 
 
