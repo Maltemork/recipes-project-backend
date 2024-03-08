@@ -24,6 +24,11 @@ public class CategoryController {
   @PreAuthorize("hasAnyAuthority('ADMIN')")
   @PostMapping
     public String addCategory(@RequestBody Category request) {
+      for (String existingCategoryName : categoryService.getAllCategories()) {
+        if (existingCategoryName.equals(request.getName())) {
+          return "Category already exists";
+        }
+      }
     return categoryService.addCategory(request);
     }
 }
